@@ -1,0 +1,63 @@
+<div class="container container-styles">
+  <div class="col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Events Available</div>
+      <div class="panel-body">
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="tabprimary">
+            <div class="btn-group">
+            </div>
+            <div class="input-group pull-right col-md-3">
+              <input type="text" class="form-control" placeholder="Search Events" name="q" [(ngModel)]="listFilter"
+                (ngModelChange)="searchtext()">
+              <div class="input-group-btn">
+                <button class="btn btn-default">
+                  <i class="glyphicon glyphicon-search"></i>
+                </button>
+              </div>
+            </div>
+            <div *ngIf='events && events.length' style="margin-top:20px">
+              <div class="row">
+                <div class="col-sm-3 col-xs-12" *ngFor='let event of events; let i = index'>
+
+                  <span class="thumbnail text-center">
+                    <div>
+                      <img [src]='event.imgSrc' [title]='event.name' style="max-width: 100%" [style.width.px]='imageWidth'
+                        [style.height.px]='imageHeight' [style.margin.px]='imageMargin' [alt]="event.name">
+                    </div>
+                    <div class="caption">
+                      <div>
+                        <span>
+                          <label>Name:</label>
+                          {{event.name}}</span>
+                      </div>
+                      <div>
+                        <span>
+                          <label>Date:</label>
+                          {{event.date}} </span>
+                      </div>
+                      <div>
+                        <span>
+                          <label>Seats Available:</label>
+                          {{event.seatsAvailable}} </span>
+                      </div>
+                      <div></div>
+                      <div>
+                        <span *ngIf="event.seatsAvailable == 0"> Sold Out</span>
+                        <button *ngIf="event.seatsAvailable != 0" (click)="bookEvent(event.name)" class="btn btn-primary">Book Now</button>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf='events == null || events.length == 0'>
+              <span>No Results Found !</span>
+            </div>
+          </div>
+          <br /><br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

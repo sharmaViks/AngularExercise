@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="col-xs-12 col-md-offset-3 col-md-6 ">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h1 id="eventName"></h1>
+      </div>
+      <div class="panel-body">
+        <h3 style="text-align: center" *ngIf="disableCancel">Tickets Booked</h3>
+        <h4><label>Number of Available Seats:</label><span id="noOfSeats"></span></h4>
+        <hr>
+        <div class="col-xs-12 col-md-offset-3 col-md-6">
+        <form class="form-horizontal" style="padding:5px" [formGroup]="bookingForm" novalidate
+          (ngSubmit)="onSubmit(bookingForm?.value)">
+
+          <div class="form-group">
+            <label>Name:</label>
+            <input class="form-control" type="text" name="username" formControlName="username">
+            <span *ngIf="username.errors && (username.dirty || username.touched)">
+              <p class="alert alert-danger custom-alert" *ngIf="username.errors.required">Please enter your name</p>
+              <p class="alert alert-danger custom-alert" *ngIf="username.errors?.pattern">Only letters and spaces are
+                allowed</p>
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Email:</label>
+            <input class="form-control" type="email" name="email" formControlName="email">
+            <span *ngIf="email.errors && (email.dirty || email.touched)">
+              <p class="alert alert-danger custom-alert" *ngIf="email.errors.required">Please enter your Email</p>
+              <p class="alert alert-danger custom-alert" *ngIf="email.errors.email">Invalid Email</p>
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number:</label>
+            <input class="form-control" type="text" name="phoneNo" formControlName="phoneNo">
+            <span *ngIf="phoneNo.errors && (phoneNo.dirty || phoneNo.touched)">
+              <p class="alert alert-danger custom-alert"
+                *ngIf="phoneNo.errors?.minlength || phoneNo.errors?.maxlength ">Please enter 10 digit phone
+                number</p>
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Number of seats:</label>
+
+            <select class="form-control" name="noOfSeats" formControlName="noOfSeats"
+              (change)="checkAvailableSeats(noOfSeats)">
+              <option class="form-control" *ngFor="let number of numberOfSeats" [value]="number">{{number}}</option>
+            </select>
+            <span *ngIf="noOfSeats.errors && (noOfSeats.dirty || noOfSeats.touched)">
+              <p class="alert alert-danger custom-alert" *ngIf="noOfSeats.errors.max">Number of seats selected is
+                more than available seats</p>
+
+            </span>
+          </div>
+          <div class="form-group" *ngFor="let attendent of attendees.controls;let i=index">
+            <label>Name of Attendee {{i+2}}:</label>
+            <input class="form-control" type="text" name="username" [formControl]="attendent.controls.username">
+            <span *ngIf="attendent?.controls?.username.errors && (attendent?.controls?.username.dirty || attendent?.controls?.username.touched)">
+              <p class="alert alert-danger custom-alert" *ngIf="attendent?.controls?.username.errors.required">Please enter your name</p>
+              <p class="alert alert-danger custom-alert" *ngIf="attendent?.controls?.username.errors?.pattern">Only letters and spaces are
+                allowed</p>
+            </span>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-offset-1 col-xs-3 col-sm-offset-3 col-sm-3 col-md-offset-1 col-md-3">
+              <button class="btn btn-primary" type="submit" [disabled]="!bookingForm.valid">Submit</button>
+            </div>
+            <div class="col-xs-offset-2 col-xs-3 col-sm-offset-1 col-sm-3 col-md-offset-2 col-md-3">
+              <button class="btn btn-primary" type="cancel" (click)="cancelFormSubmit()"
+                [disabled]="disableCancel">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
